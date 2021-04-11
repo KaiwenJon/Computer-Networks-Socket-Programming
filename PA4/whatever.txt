@@ -1,0 +1,45 @@
+1package main
+2import "fmt"
+3import "os"
+4import "bufio"
+5
+6func check(e error) {
+7	if e != nil {
+8		panic(e)
+9	}
+10}
+11
+12func main() {
+13	// Specify the input file.
+14	fmt.Printf("Input Name:")
+15	inputName := ""
+16	fmt.Scanf("%s\n", &inputName)
+17	fI, err := os.Open(inputName)
+18	check(err)
+19	defer fI.Close()
+20
+21 	// Specify the output file
+22	fmt.Printf("Output Name:")
+23	outputName := ""
+24	fmt.Scanf("%s\n", &outputName)
+25	fO, err := os.Create(outputName)
+26	check(err)
+27	defer fO.Close()
+28
+29	// Declare the reader and writer using bufio package.
+30	scanner := bufio.NewScanner(fI)
+31	writer := bufio.NewWriter(fO)
+32
+33	// Adding prepending number to each line of the input file to the output file.
+34	lineCount := 1
+35	text := ""
+36	for scanner.Scan() {
+37		text = scanner.Text();
+38		addtext := fmt.Sprintf("%d", lineCount) + " " + text + "\n"
+39
+40		writer.WriteString(addtext)
+41		fmt.Printf(addtext)
+42		lineCount = lineCount + 1
+43		writer.Flush()
+44	}
+45}

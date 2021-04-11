@@ -9,7 +9,7 @@ func check(e error) {
 }
 func main() {
 	fmt.Println("Launching server...")
-	ln, _ := net.Listen("tcp", ":<your port#>")
+	ln, _ := net.Listen("tcp", ":12007")
 	conn, _ := ln.Accept()
 	defer ln.Close()
 	defer conn.Close()
@@ -17,8 +17,8 @@ func main() {
 	scanner := bufio.NewScanner(conn)
 	message := ""
 	if scanner.Scan() {
-	message = scanner.Text()
-	fmt.Println(message)
+		message := fmt.Sprintf("%s\n", scanner.Text())
+		fmt.Println(message)
 	}
 	writer := bufio.NewWriter(conn)
 	newline := fmt.Sprintf("%d bytes received\n", len(message))
